@@ -9,6 +9,7 @@
     <div class="keys">
       <div data-key="65" class="key">
         <kbd>A</kbd>
+        <!---KBD is keyboard input-->
         <span class="sound">clap</span>
       </div>
       <div data-key="83" class="key">
@@ -44,7 +45,7 @@
         <span class="sound">tink</span>
       </div>
     </div>
-
+    <!-- audio is the html signifies an audio element, data- is attribute which can be assigned custom terms -->
     <audio data-key="65" src="sounds/clap.wav"></audio>
     <audio data-key="83" src="sounds/hihat.wav"></audio>
     <audio data-key="68" src="sounds/kick.wav"></audio>
@@ -57,10 +58,13 @@
 
     <script>
       window.addEventListener("keydown", function (e) {
+        //window selects the browser window the js is running in, addEventListener listens for what is designated in the next quotes in brackets, ie 'keydown' or 'keyup' (e) is the object being defined as accessible (able to be heard)
         const audio = document.querySelector(
-          `'audio'[data-key="${e.keyCode}"]`
-        );
-        console.log(e.keyCode);
+          //const is a variable which is defined for one purpose, here it calls the audio flag in the HTML document. this is then
+          `audio[data-key="${e.keyCode}"]`
+        ); //Template literals are used here as EM6 standard. "${e.keycode}" is referring to the accessible event object (e), more specifically the keycode for that event on keydown
+        if (!audio) return; // stop the function
+        audio.play(); //Play function
       });
     </script>
   </body>
