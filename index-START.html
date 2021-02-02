@@ -57,15 +57,27 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      window.addEventListener("keydown", function (e) {
+      function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         //window selects the browser window the js is running in, addEventListener listens for what is designated in the next quotes in brackets, ie 'keydown' or 'keyup' (e) is the object being defined as accessible (able to be heard)
-        const audio = document.querySelector(
-          //const is a variable which is defined for one purpose, here it calls the audio flag in the HTML document. this is then
-          `audio[data-key="${e.keyCode}"]`
-        ); //Template literals are used here as EM6 standard. "${e.keycode}" is referring to the accessible event object (e), more specifically the keycode for that event on keydown
-        if (!audio) return; // stop the function
+        //const is a variable which is defined for one purpose, here it calls the audio flag in the HTML document. this is then
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        //Template literals are used here as EM6 standard. "${e.keycode}" is referring to the accessible event object (e) more specifically the keycode for that event on keydown
+        if (!audio) return; // stop the function if non-audio key is pressed
+        audio.currentTime = 0; // Starts the clip from 0 seconds on press
         audio.play(); //Play function
-      });
+        key.classList.add("playing");
+      }
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return; // Skip if it's not a transform
+        this.classList.remove("playing");
+        //console.log(e.propertyName);
+      }
+      const keys = document.querySelectorAll(".key");
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+      window.addEventListener("keydown", playSound);
     </script>
   </body>
 </html>
